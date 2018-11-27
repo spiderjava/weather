@@ -27,7 +27,7 @@ app.post('/', function (req, res) {
         res.render('index', {weather: null, error: 'Error, please try again'});
       } else {
         let tempCels=Math.round((parseInt(weather.main.temp)-32)*0.5556);
-        let weatherText = `It's ${tempCels} degrees in ${weather.name}!`;
+        let weatherText = `It's ${tempCels} degrees in ${weather.name} with ${weather.main.humidity}% of humidity!`;
         res.render('index', {weather: weatherText, error: null});
       }
     }
