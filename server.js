@@ -28,7 +28,7 @@ app.post('/', function (req, res) {
 
   // CALL POSTGRES WITH SF HEROKU CONNECT
   pgclient.connect();
-  pgclient.query('select name, name__c from salesforce.social_event__c where city__c=\''+city+'\'', (err, res) => {
+  pgclient.query('select name, name__c from salesforce.social_event__c where city__c=\''+city+'\'', (err, dbres) => {
     if (err) throw err;
     // CALL WEATHER SERVICE
     request(url, function (err, response, body) {
@@ -46,8 +46,8 @@ app.post('/', function (req, res) {
     pgclient.end();
     });
   });
-  console.log(res);
-  res.render('index', {events: res, weather: weatherText, error: null});
+  console.log(dbres);
+  res.render('index', {events: dbres, weather: weatherText, error: null});
 });
 
 app.listen(app.get('port'), function () {
