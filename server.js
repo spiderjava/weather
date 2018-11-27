@@ -41,12 +41,13 @@ app.post('/', function (req, res) {
             } else {
                 let tempCels=Math.round((parseInt(weather.main.temp)-32)*0.5556);
                 weatherText = `It's ${tempCels} degrees in ${weather.name} with ${weather.main.humidity}% of humidity!`;
+                console.log(dbres);
+                res.render('index', {events: dbres, weather: weatherText, error: null});
             }
         }
     pgclient.end();
     });
-    console.log(dbres);
-    res.render('index', {events: dbres, weather: weatherText, error: null});
+    
   });
 });
 
