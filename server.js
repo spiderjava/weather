@@ -46,7 +46,7 @@ app.post('/', function (req, res) {
     pgclient.end();
     });
   });
-
+  console.log(res);
   res.render('index', {events: res, weather: weatherText, error: null});
 });
 
