@@ -13,6 +13,14 @@
           <input name="city" type="text" class="ghost-input" placeholder="Enter a City" required>
           <input type="submit" class="ghost-button" value="Get Weather">
         </form>
+
+        <ul>
+            <% if(events !== null){ 
+                events.forEach(function(r) { %>
+                <li><%= r.id %> - <%= r.name %></li>
+            <% }); }%>
+        </ul>
+
         <% if(weather !== null){ %>
           <p><%= weather %></p>
         <% } %>
