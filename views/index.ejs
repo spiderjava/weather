@@ -16,7 +16,7 @@
 
         <ul>
             <% if(events !== null){ 
-                events.forEach(function(r) { %>
+                events.rows.forEach(function(r) { %>
                 <li><%= r.id %> - <%= r.name %></li>
             <% }); }%>
         </ul>
