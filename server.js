@@ -2,10 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const app = express();
-const { Pool } = require('pg');
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true
+const { Client } = require('pg');
+const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: true,
 });
 
 app.set('port', (process.env.PORT || 3000));
@@ -26,9 +26,9 @@ app.post('/', async (req, res) => {
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`
 
   // CALL POSTGRES WITH SF HEROKU CONNECT
-  const client =  await pool.connect()
-  const result =  await client.query('select name, name__c from salesforce.social_event__c where city__c=\''+city+'\'');
-  
+  client.connect();
+  const result = client.query('select name, name__c from salesforce.social_event__c where city__c=\''+city+'\'');
+  client.end();
   
   // CALL WEATHER SERVICE
   let weatherText='';
