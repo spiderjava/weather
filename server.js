@@ -32,7 +32,7 @@ app.post('/', async (req, res) => {
   
   // CALL WEATHER SERVICE
   let weatherText='';
-  request(url, function (err, response, body) {
+  const weathharbour= await request(url, function (err, response, body) {
     if(err){
       console.log('Error, please try again');
     } else {
@@ -48,8 +48,8 @@ app.post('/', async (req, res) => {
 
 
   res.render('index', {events: result, weather: weatherText, error: null});
-})
+});
 
 app.listen(app.get('port'), function () {
   console.log('Example app listening on port '+ app.get('port'))
-})
+});
