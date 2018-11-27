@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const app = express();
 const { Client } = require('pg');
-const client = new Client({
+const pgclient = new Client({
     connectionString: process.env.DATABASE_URL,
     ssl: true,
 });
@@ -24,31 +24,30 @@ app.get('/', function (req, res) {
 app.post('/', function (req, res) {
   let city = req.body.city;
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`
+  let weatherText='';
 
   // CALL POSTGRES WITH SF HEROKU CONNECT
-  client.connect();
-  const result = client.query('select name, name__c from salesforce.social_event__c where city__c=\''+city+'\'');
-  client.end();
-  console.log(result);
-  
-  // CALL WEATHER SERVICE
-  let weatherText='';
-  const weathharbour=  request(url, function (err, response, body) {
-    if(err){
-      console.log('Error, please try again');
-    } else {
-      let weather = JSON.parse(body)
-      if(weather.main == undefined){
-        console.log('Error, please try again');
-      } else {
-        let tempCels=Math.round((parseInt(weather.main.temp)-32)*0.5556);
-        weatherText = `It's ${tempCels} degrees in ${weather.name} with ${weather.main.humidity}% of humidity!`;
-      }
-    }
+  pgclient.connect();
+  pgclient.query('select name, name__c from salesforce.social_event__c where city__c=\''+city+'\'', (err, res) => {
+    if (err) throw err;
+    // CALL WEATHER SERVICE
+    request(url, function (err, response, body) {
+        if(err){
+              console.log('Error, please try again');
+        } else {
+            let weather = JSON.parse(body)
+            if(weather.main == undefined){
+                console.log('Error, please try again');
+            } else {
+                let tempCels=Math.round((parseInt(weather.main.temp)-32)*0.5556);
+                weatherText = `It's ${tempCels} degrees in ${weather.name} with ${weather.main.humidity}% of humidity!`;
+            }
+        }
+    pgclient.end();
+    });
   });
 
-
-  res.render('index', {events: result, weather: weatherText, error: null});
+  res.render('index', {events: res, weather: weatherText, error: null});
 });
 
 app.listen(app.get('port'), function () {
