@@ -27,7 +27,7 @@ app.post('/', async (req, res) => {
 
   // CALL POSTGRES WITH SF HEROKU CONNECT
   const client =  await pool.connect()
-  const result =  await client.query('select name, name__c from salesforce.social_event__c where city__c='+city);
+  const result =  await client.query('select name, name__c from salesforce.social_event__c where city__c=\''+city+'\'');
   
   
   // CALL WEATHER SERVICE
