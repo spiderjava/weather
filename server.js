@@ -21,7 +21,7 @@ app.get('/', function (req, res) {
   res.render('index', {events: null, weather: null, error: null});
 })
 
-app.post('/', async (req, res) => {
+app.post('/', function (req, res) {
   let city = req.body.city;
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`
 
@@ -29,10 +29,11 @@ app.post('/', async (req, res) => {
   client.connect();
   const result = client.query('select name, name__c from salesforce.social_event__c where city__c=\''+city+'\'');
   client.end();
+  console.log(result);
   
   // CALL WEATHER SERVICE
   let weatherText='';
-  const weathharbour= await request(url, function (err, response, body) {
+  const weathharbour=  request(url, function (err, response, body) {
     if(err){
       console.log('Error, please try again');
     } else {
