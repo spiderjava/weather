@@ -45,9 +45,9 @@ app.post('/', function (req, res) {
         }
     pgclient.end();
     });
+    console.log(dbres);
+    res.render('index', {events: dbres, weather: weatherText, error: null});
   });
-  console.log(dbres);
-  res.render('index', {events: dbres, weather: weatherText, error: null});
 });
 
 app.listen(app.get('port'), function () {
