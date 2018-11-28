@@ -3,6 +3,11 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const app = express();
 const { Client } = require('pg');
+const pgclient = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: true,
+  });
+
 
 
 app.set('port', (process.env.PORT || 3000));
@@ -22,11 +27,7 @@ app.post('/', function (req, res) {
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${req.body.city}&units=imperial&appid=${apiKey}`
   let sfquery=`select name, name__c from salesforce.social_event__c where city__c='${req.body.city}'`;
   let weatherText='';
-  const pgclient = new Client({
-    connectionString: process.env.DATABASE_URL,
-    ssl: true,
-  });
-
+  
   try{
     // CALL POSTGRES WITH SF HEROKU CONNECT
     pgclient.connect();

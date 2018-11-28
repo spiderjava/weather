@@ -15,13 +15,13 @@
         </form>
 
         <ul>
-            <% if(events !== null){ 
+            <% if(events != undefined){ 
                 events.rows.forEach(function(r) { %>
                 <li><%= r.name %> - <%= r.name__c %></li>
             <% }); }%>
         </ul>
 
-        <% if(weather !== null){ %>
+        <% if(weather != undefined){ %>
           <p><%= weather %></p>
         <% } %>
 
