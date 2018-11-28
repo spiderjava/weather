@@ -15,7 +15,9 @@ app.get('/', function (req, res) {
 })
 
 app.post('/', function (req, res) {
-  let url = `http://api.openweathermap.org/data/2.5/weather?q=${req.body.city}&units=imperial&appid=${apiKey}`
+  //old
+  //let url = `http://api.openweathermap.org/data/2.5/weather?q=${req.body.city}&units=imperial&appid=${apiKey}`
+  let url = `http://demobusinessapp-gand.de-c1.cloudhub.io/weather?city=${req.body.city}`;
   let sfquery=`select name, name__c, duration__c, event_date__c, description__c from salesforce.social_event__c where city__c='${req.body.city.toLowerCase()}'`;
   let { Client } = require('pg');
   let pgclient = new Client({
@@ -32,9 +34,11 @@ app.post('/', function (req, res) {
         request(url, function (err, response, body) {
             if (err) throw err;
             let weather = JSON.parse(body);
-            if(weather.main != undefined){
-                let tempCels=Math.round((parseInt(weather.main.temp)-32)*0.5556);
-                let weatherText = `It's ${tempCels} degrees in ${weather.name} with ${weather.main.humidity}% of humidity!`;
+            if(weather != undefined){
+                //weather.main....
+                //let tempCels=Math.round((parseInt(weather.main.temp)-32)*0.5556);
+                let tempCels=Math.round(parseInt(weather.temp));
+                let weatherText = `It's ${tempCels} degrees in ${weather.city} with ${weather.humidity}% of humidity!`;
                 //COMPOSE RESPONSE
                 res.render('index', {events: dbres, weather: weatherText, error: null});
             }        
