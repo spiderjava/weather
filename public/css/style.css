@@ -105,6 +105,7 @@ body {
   table td {
     padding: .625em;
     text-align: left;
+    vertical-align:top;
   }
   
   table th {
