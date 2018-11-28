@@ -2,11 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const app = express();
-const { Client } = require('pg');
-const pgclient = new Client({
-    connectionString: process.env.DATABASE_URL,
-    ssl: true,
-  });
+
 
 
 
@@ -28,6 +24,12 @@ app.post('/', function (req, res) {
   let sfquery=`select name, name__c from salesforce.social_event__c where city__c='${req.body.city}'`;
   let weatherText='';
   
+  let { Client } = require('pg');
+  let pgclient = new Client({
+      connectionString: process.env.DATABASE_URL,
+      ssl: true,
+    });
+
   try{
     // CALL POSTGRES WITH SF HEROKU CONNECT
     pgclient.connect();
@@ -50,7 +52,7 @@ app.post('/', function (req, res) {
   }catch (err){
     console.log(err);
   }finally{
-    pgclient.end();
+    //pgclient.end();
   }
 });
 
