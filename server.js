@@ -52,7 +52,7 @@ app.post('/', function (req, res) {
   }catch (err){
     console.log(err);
   }finally{
-    pgclient.end();
+    //pgclient.end();
   }
 });
 
