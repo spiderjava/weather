@@ -19,8 +19,8 @@ app.get('/', function (req, res) {
 })
 
 app.post('/', function (req, res) {
-  let city = req.body.city;
-  let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`
+  let url = `http://api.openweathermap.org/data/2.5/weather?q=${req.body.city}&units=imperial&appid=${apiKey}`
+  let sfquery=`select name, name__c from salesforce.social_event__c where city__c='${req.body.city}'`;
   let weatherText='';
   const pgclient = new Client({
     connectionString: process.env.DATABASE_URL,
@@ -30,7 +30,9 @@ app.post('/', function (req, res) {
   try{
     // CALL POSTGRES WITH SF HEROKU CONNECT
     pgclient.connect();
-    pgclient.query('select name, name__c from salesforce.social_event__c where city__c=\''+  city.toLowerCase() +'\'', (err, dbres) => {
+    console.log(sfquery);
+    pgclient.query(sfquery, (err, dbres) => {
+        console.log(dbres);
         //if (err) throw err;
         // CALL WEATHER SERVICE
         request(url, function (err, response, body) {
