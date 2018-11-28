@@ -22,8 +22,6 @@ app.get('/', function (req, res) {
 app.post('/', function (req, res) {
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${req.body.city}&units=imperial&appid=${apiKey}`
   let sfquery=`select name, name__c from salesforce.social_event__c where city__c='${req.body.city.toLowerCase()}'`;
-  let weatherText='';
-  
   let { Client } = require('pg');
   let pgclient = new Client({
       connectionString: process.env.DATABASE_URL,
@@ -36,14 +34,13 @@ app.post('/', function (req, res) {
     console.log(sfquery);
     pgclient.query(sfquery, (err, dbres) => {
         console.log(dbres);
-        //if (err) throw err;
         // CALL WEATHER SERVICE
         request(url, function (err, response, body) {
             if (err) throw err;
             let weather = JSON.parse(body);
             if(weather.main != undefined){
                 let tempCels=Math.round((parseInt(weather.main.temp)-32)*0.5556);
-                weatherText = `It's ${tempCels} degrees in ${weather.name} with ${weather.main.humidity}% of humidity!`;
+                let weatherText = `It's ${tempCels} degrees in ${weather.name} with ${weather.main.humidity}% of humidity!`;
                 //COMPOSE RESPONSE
                 res.render('index', {events: dbres, weather: weatherText, error: null});
             }        
@@ -52,7 +49,7 @@ app.post('/', function (req, res) {
   }catch (err){
     console.log(err);
   }finally{
-    //pgclient.end();
+    console.log('End GetEvent Post!!');
   }
 });
 
