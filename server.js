@@ -38,7 +38,7 @@ app.post('/', function (req, res) {
                 //weather.main....
                 //let tempCels=Math.round((parseInt(weather.main.temp)-32)*0.5556);
                 let tempCels=Math.round(parseInt(weather.temp));
-                let weatherText = `It's ${tempCels} degrees in ${weather.city} with ${weather.humidity}% of humidity!`;
+                let weatherText = `${weather.weather} with ${tempCels} temperature degrees and ${weather.humidity}% of humidity in ${weather.city} !`;
                 //COMPOSE RESPONSE
                 res.render('index', {events: dbres, weather: weatherText, error: null});
             }        
