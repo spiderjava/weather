@@ -1,19 +1,14 @@
+// SPECIFY YOUR API KEY GET FROM https://openweathermap.org/api
+const apiKey = '56f0615a9269c2e635656856e4e66dbe';
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const app = express();
 
-
-
-
 app.set('port', (process.env.PORT || 3000));
-
-const apiKey = '56f0615a9269c2e635656856e4e66dbe';
-
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs')
-
 
 app.get('/', function (req, res) {
   res.render('index', {events: null, weather: null, error: null});
@@ -21,13 +16,12 @@ app.get('/', function (req, res) {
 
 app.post('/', function (req, res) {
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${req.body.city}&units=imperial&appid=${apiKey}`
-  let sfquery=`select name, name__c from salesforce.social_event__c where city__c='${req.body.city.toLowerCase()}'`;
+  let sfquery=`select name, name__c, duration__c, event_date__c, description__c from salesforce.social_event__c where city__c='${req.body.city.toLowerCase()}'`;
   let { Client } = require('pg');
   let pgclient = new Client({
       connectionString: process.env.DATABASE_URL,
       ssl: true,
     });
-
   try{
     // CALL POSTGRES WITH SF HEROKU CONNECT
     pgclient.connect();

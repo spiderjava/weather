@@ -14,13 +14,30 @@
           <input type="submit" class="ghost-button" value="Search Social Event">
         </form>
 
-        <ul>
-            <% if(events != undefined){ 
-                events.rows.forEach(function(r) { %>
-                <li><%= r.name %> - <%= r.name__c %></li>
-            <% }); }%>
-        </ul>
+        <table>
+            <caption>Statement Summary</caption>
+            <thead>
+              <tr>
+                <th scope="col">Event Date</th>
+                <th scope="col">Name</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                    <% if(events != undefined){ 
+                        events.rows.forEach(function(r) { %>
+                <tr>
+                  <td data-label="Event Date"><%= r.event_date__c %> </td>
+                  <td data-label="Name"><%= r.name__c %> </td>
+                  <td data-label="Duration"><%= r.duration__c %>  </td>
+                  <td data-label="Description"><%= r.description__c %> </td>
+                </tr>
 
+                <% }); }%>
+            </tbody>
+        </table>
+       
         <% if(weather != undefined){ %>
           <p><%= weather %></p>
         <% } %>
