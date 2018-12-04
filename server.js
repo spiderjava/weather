@@ -15,7 +15,7 @@ app.get('/', function (req, res) {
 })
 
 app.post('/', function (req, res) {
-  //old
+  //old1
   //let url = `http://api.openweathermap.org/data/2.5/weather?q=${req.body.city}&units=imperial&appid=${apiKey}`
   let url = `http://demobusinessapp-gand.de-c1.cloudhub.io/weather?city=${req.body.city}`;
   let sfquery=`select name, name__c, duration__c, event_date__c, description__c from salesforce.social_event__c where city__c='${req.body.city.toLowerCase()}'`;
