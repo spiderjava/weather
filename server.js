@@ -54,7 +54,6 @@ app.post('/', function (req, res) {
 
 app.get("/api/events/:city", function (req, res) {
   let city = req.params.city;
-  let events=[];
   let url = `http://demobusinessapp-xkru.de-c1.cloudhub.io/weather?city=${city}`;
   let sfquery=`select name, name__c, duration__c, event_date__c, description__c from salesforce.social_event__c where city__c='${city.toLowerCase()}'`;
   let { Client } = require('pg');
@@ -68,7 +67,9 @@ app.get("/api/events/:city", function (req, res) {
     console.log(sfquery);
     pgclient.query(sfquery, (err, dbres) => {
     console.log(dbres);
+    let events=[];
     for ( var event in dbres.rows) {
+      console.log(event);
       events.push({
           event_date: event.event_date__c,
           name: event.name__c,
@@ -77,7 +78,9 @@ app.get("/api/events/:city", function (req, res) {
        });
     }
     res.set('Content-Type', 'application/json');
+    console.log("presend");
     res.status(200).send(events);
+    console.log("postsend");
     });
   }catch (err){
     console.log(err);
