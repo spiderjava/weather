@@ -54,7 +54,6 @@ app.post('/', function (req, res) {
 
 app.get("/api/events/:city", function (req, res) {
   let city = req.params.city;
-  let url = `http://demobusinessapp-xkru.de-c1.cloudhub.io/weather?city=${city}`;
   let sfquery=`select name, name__c, duration__c, event_date__c, description__c from salesforce.social_event__c where city__c='${city.toLowerCase()}'`;
   let { Client } = require('pg');
   let pgclient = new Client({
