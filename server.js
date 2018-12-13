@@ -71,16 +71,14 @@ app.get("/api/events/:city", function (req, res) {
     for ( var event in dbres.rows) {
       console.log(event);
       events.push({
-          event_date: event.event_date__c,
-          name: event.name__c,
-          duration: event.duration__c,
-          description: event.description__c
+          event_date: dbres.rows[event].event_date__c,
+          name: dbres.rows[event].name__c,
+          duration: dbres.rows[event].duration__c,
+          description: dbres.rows[event].description__c
        });
     }
     res.set('Content-Type', 'application/json');
-    console.log("presend");
     res.status(200).send(events);
-    console.log("postsend");
     });
   }catch (err){
     console.log(err);
