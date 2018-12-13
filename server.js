@@ -51,6 +51,46 @@ app.post('/', function (req, res) {
   }
 });
 
+
+app.get("/api/events/:city", function (req, res) {
+  let city = req.params.city;
+  let events=[];
+  let url = `http://demobusinessapp-gand.de-c1.cloudhub.io/weather?city=${city}`;
+  let sfquery=`select name, name__c, duration__c, event_date__c, description__c from salesforce.social_event__c where city__c='${city.toLowerCase()}'`;
+  let { Client } = require('pg');
+  let pgclient = new Client({
+      connectionString: process.env.DATABASE_URL,
+      ssl: true,
+    });
+  try{
+    // CALL POSTGRES WITH SF HEROKU CONNECT
+    pgclient.connect();
+    console.log(sfquery);
+    pgclient.query(sfquery, (err, dbres) => {
+    console.log(dbres);
+    for ( var event in dbres.rows) {
+      events.push({
+          event_date: event.event_date__c,
+          name: event.name__c,
+          duration: event.duration__c,
+          description: event.description__c
+       });
+    }
+    res.set('Content-Type', 'application/json');
+    res.status(200).send(events);
+    });
+  }catch (err){
+    console.log(err);
+  }finally{
+    console.log('End Events API!!');
+  }
+
+ 
+});
+
+
+
+
 app.listen(app.get('port'), function () {
   console.log('Example app listening on port '+ app.get('port'))
 });
