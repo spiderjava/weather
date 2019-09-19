@@ -1,4 +1,5 @@
 // SPECIFY YOUR API KEY GET FROM https://openweathermap.org/api
+// Lucia Salvi
 //const apiKey = '56f0615a9269c2e635656856e4e66dbe';
 const express = require('express');
 const bodyParser = require('body-parser');
