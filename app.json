@@ -1,0 +1,26 @@
+{
+  "addons": [
+    "herokuconnect",
+    "jawsdb",
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "env": {
+    "JAWSDB_URL": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "name": "weather",
+  "scripts": {
+  },
+  "stack": "heroku-18"
+}
