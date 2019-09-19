@@ -79,6 +79,10 @@ body {
     font-size: 14px;
   }
 
+  weathertable.td {
+    vertical-align: middle;
+  }
+
 
   /* TABLE */
   body {
