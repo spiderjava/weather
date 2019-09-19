@@ -16,9 +16,13 @@
 
         
         <% if(weather != undefined){ %>
-          <p>
-            <img src="/images/weather.png" />
-            <%= weather %></p>
+          <table class="weathertable">
+            <tr>
+              <td><img src="/images/weather.png" /></td>
+              <td><%= weather %></td>
+            </tr>
+          </table>
+          
         <% } %>
 
         <% if(error !== null){ %>

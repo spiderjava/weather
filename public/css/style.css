@@ -73,6 +73,11 @@ body {
     color: dimgray;
   }
 
+  weathertable {
+    color: dimgray;
+    border: 0.5px solid lightgrey;
+    font-size: 14px;
+  }
 
 
   /* TABLE */
