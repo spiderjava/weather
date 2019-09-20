@@ -1,6 +1,6 @@
 // SPECIFY YOUR API KEY GET FROM https://openweathermap.org/api
-// Lucia Salvi
 //const apiKey = '56f0615a9269c2e635656856e4e66dbe';
+//
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
@@ -40,7 +40,7 @@ app.post('/', function (req, res) {
                 //weather.main....
                 //let tempCels=Math.round((parseInt(weather.main.temp)-32)*0.5556);
                 let tempCels=Math.round(parseInt(weather.temp));
-                let weatherText = `${weather.weather} with ${tempCels} degrees of temperature and XXX% of humidity in ${weather.city} !`;
+                let weatherText = `Hello Nino, weather in ${weather.city} is ${weather.weather} with ${tempCels} degrees of temperature`;
                 // ${weather.humidity}
                 //COMPOSE RESPONSE
                 res.render('index', {events: dbres, weather: weatherText, error: null});
